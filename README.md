@@ -62,7 +62,7 @@ Besides the obvious fix and some new features my version of the addon aims to be
 
 1. Download the addon as a zip file
 2. Create an `addons` directory in your Godot project
-3. Inside of the `addons` directory create an `ridiculous_coding` directory 
+3. Inside of the `addons` directory create an `ridiculous_coding` directory
 4. Copy/Paste all files from the zip's `addons/ridiculous_coding` directory into the equivalent projects folder
 5. Enable the plugin in `Project Settings | Plugins`
 
@@ -109,7 +109,7 @@ More fun links to come ....
 
 ### John Watson
 
-[Twitter](https://twitter.com/yafd) 
+[Twitter](https://twitter.com/yafd)
 
 [Gravity Ace](https://gravityace.com)
 
@@ -122,7 +122,7 @@ More fun links to come ....
 | Authors    | Resources   |
 | ---------- | ----------- |
 | Ash K                            | [Textreme 2](https://ash-k.itch.io/textreme-2)                                   |
-| jotson -John Watson-             | [ridiculous_coding](https://github.com/jotson/ridiculous_coding/tree/godot4)     | 
+| jotson -John Watson-             | [ridiculous_coding](https://github.com/jotson/ridiculous_coding/tree/godot4)     |
 | chukusuccess -Chuku Success-     | [Coding-Break-Extension](https://github.com/chukusuccess/Coding-Break-Extension) |
 | Nukiloco                         | [editor_background](https://github.com/Nukiloco/editor_background)               |
 | newjoker6 -Michael McGuire-      | [Editor-Image-Plugin-2](https://github.com/newjoker6/Editor-Image-Plugin-2)      |
