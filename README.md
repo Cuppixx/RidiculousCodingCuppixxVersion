@@ -105,6 +105,8 @@ Check out and download the amazing [Godot Engine](https://godotengine.org/downlo
 
 [RidiculousCodingCuppixxVersion](https://github.com/Cuppixx/RidiculousCodingCuppixxVersion/tree/main)
 
+[KoalaTime_Take_A_Break](https://github.com/Cuppixx/KoalaTime_Take-A-Break)
+
 More fun links to come ....
 
 ### John Watson
