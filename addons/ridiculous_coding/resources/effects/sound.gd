@@ -1,20 +1,16 @@
 @tool
 class_name RcSound extends Node
 
-var destroy:bool = false
-var pitch_increment:float = 0.0
-var base_db:float = 0.0
-var sound_addend:float = 0.0
-var sound_selected:AudioStreamWAV
-
+@export var destroy:bool = false
 @onready var audio_stream_player:AudioStreamPlayer = $AudioStreamPlayer
-@onready var timer:Timer = $Timer
 
-func _ready() -> void:
-	audio_stream_player.stream = sound_selected
-	audio_stream_player.volume_db = base_db + sound_addend
+func create_sound(streamWAV:AudioStreamWAV,volume:float,pitch_increment:float = 0.0) -> void:
+	audio_stream_player.stream = streamWAV
+	audio_stream_player.volume_db = volume
 	audio_stream_player.pitch_scale = 1.0 + pitch_increment * 0.01
-	audio_stream_player.play()
-	timer.start()
 
-func _on_timer_timeout() -> void: if destroy == true: queue_free()
+func play_sound_effect() -> void:
+	audio_stream_player.play()
+	#print("Volume: ",audio_stream_player.volume_db)
+	await audio_stream_player.finished
+	if destroy == true: queue_free()

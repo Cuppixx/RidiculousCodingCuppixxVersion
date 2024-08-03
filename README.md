@@ -17,20 +17,16 @@ The original addon was inspired by "[Textreme](https://ash-k.itch.io/textreme-2)
 As this is a fork of the original addon by John Watson, the general idea and structure remain the same.
 Should you encounter any problems (I hope you won't) while using my version of the addon please do not bother the original author as it is most likely an issue caused by me.
 
-### What I fixed
-- **Saving works now properly over new / multiple sessions**
-- Characters / Keys now animate even with the boom and / or blip settings toggled off
-- Fixed some node errors (most likely caused by porting to godot 4)
-- Experience is now counted properly after a reload / restart
-- More stable in my testing
-
 ### What I changed
 - **Added an extensive settings window**
 - The progress bar now includes different "ranks" to climb
 - You can choose between the original beeping sound and my typewriter sound
-- Smaller char / blip / newline effects
+- Adjusted char / blip / newline effects
+- Adjusted overall visuals
 - Fireworks are now purple-ish instead of rainbow colored
+- Fireworks use a colored xp-image instead of colored pixels
 - Chars emited upon destruction are now red / yellow instead of rainbow colored
+- Chars when typing get a small randomized rotation
 - Less overhead in code
 - Saving now utilizes godots resources instead of .ini files
 - Code is more alligned with (godot) writing conventions
@@ -40,10 +36,15 @@ Should you encounter any problems (I hope you won't) while using my version of t
 ### TODO / What I want to do
 - Settings to configure VFX color schemes
 - Settings to adjust VFX positions
+- More Setting for even more customisation
 - Implement an optional custom background feature
-- Implement a break functionality that reminds you to take a break from coding once in a while
+- Implement a regex system that awards more xp for best-practice and sticking to godot style conventions
+- Implement a skill tree / reward system that lets you unlock stuff with ever level you climb
 
-Besides the obvious fix and some new features my version of the addon aims to be less "in your face" type of style. **This is my personal taste**! Feel free to revert any changes back to a more "in your face" type of style.
+Besides the obvious change and some new features my version of the addon aims to be less "in your face" type of style,
+with many options to customise your experience. I also want to empathise a more gamified experience.
+**This is my personal taste**! Feel free to revert any changes back to a more "in your face" type of style or
+simply stick with the original version.
 
 **A huge thanks** to [John Watson](https://github.com/jotson) for creating such an amazing addon / plugin :D !!!!!!!
 
@@ -77,10 +78,6 @@ res://
 			...all the ridiculous coding files...
 ```
 
-Remember to activate the addon in your project settings like this:
-
-![Enable plugin](readme-enable.png)
-
 ## About me
 
 #### John Watson
@@ -104,6 +101,12 @@ Check out and download the amazing [Godot Engine](https://godotengine.org/downlo
 [Twitch](https://www.twitch.tv/cuppixd)
 
 [RidiculousCodingCuppixxVersion](https://github.com/Cuppixx/RidiculousCodingCuppixxVersion/tree/main)
+
+[KoalaTime_Take_A_Break](https://github.com/Cuppixx/KoalaTime_Take-A-Break)
+
+[PandaTime_Take_A_Break](https://github.com/Cuppixx/PandaTime_Take-A-Break)
+
+[TravelingSalesmanProblem_ClassProject](https://github.com/Cuppixx/TravelingSalesmanProblem_ClassProject)
 
 More fun links to come ....
 
