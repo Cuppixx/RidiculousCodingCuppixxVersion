@@ -14,7 +14,6 @@ const MSG04:String = "--> RC: Pitch %s set: "
 #endregion
 var stats:StatsDataRC = StatsDataRC.new()
 #region Onready Variables
-@onready var update_addon_button:Button = $ScrollContainer/Control/MarginContainer/VBoxContainer/CenterContainerUpdate/UpdateButton
 @onready var reset_settings_button:Button = $ScrollContainer/Control/MarginContainer/VBoxContainer/CenterContainerReset/ResetButton
 
 @onready var sound_checkbox:CheckButton = $ScrollContainer/Control/MarginContainer/VBoxContainer/GridContainerMaster/SoundCheckbox
@@ -60,16 +59,12 @@ func _notification(what:int) -> void:
 		_: pass
 
 func _ready() -> void:
-	# My hex color '201829' for the background
-	# FIX: The return value of the editor settings color is unequal to the actual color set.
-
-	#var editor_settings:EditorSettings = EditorSettings.new()
-	#var editor_theme_color:Color = editor_settings.get("interface/theme/base_color")
-	#%BackgroundColorRect.color = editor_theme_color
-	#print("Color: ", editor_theme_color)
+	var editor_settings:EditorSettings = EditorInterface.get_editor_settings()
+	%BackgroundColorRect.color = editor_settings.get_setting("interface/theme/base_color")
 
 	_connect_settings()
 	_load_settings_state()
+
 
 func _load_settings_state() -> void:
 	sound_checkbox.button_pressed = stats.sound
@@ -106,15 +101,14 @@ func _load_settings_state() -> void:
 	firework_sound_checkbox.button_pressed = stats.firework_sound
 	firework_sound_slider.value = stats.firework_sound_addend
 
+
 func _connect_settings() -> void:
-	# Util connections
-	update_addon_button.pressed.connect(func() -> void:
-		DirAccess.remove_absolute(ROOT_PATH+FILE_NAME)
+	# Util connections //////////////////////////////////////////////////////////////////////////////////////
+	reset_settings_button.pressed.connect(func() -> void:
 		_reset_settings()
 	)
-	reset_settings_button.pressed.connect(func() -> void: _reset_settings())
 
-	# Master connections
+	# Master connections ////////////////////////////////////////////////////////////////////////////////////
 	sound_checkbox.toggled.connect(func(toggled:bool) -> void: stats.sound = toggled)
 	sound_slider.drag_ended.connect(func(_bool:bool) -> void:
 		print_debug(MSG02 % ["Master"]+str(sound_slider.value))
@@ -127,7 +121,7 @@ func _connect_settings() -> void:
 	)
 	key_checkbox.toggled.connect(func(toggled:bool) -> void: stats.key = toggled)
 
-	# Newline connections
+	# Newline connections ///////////////////////////////////////////////////////////////////////////////////
 	newline_checkbox.toggled.connect(func(toggled:bool) -> void: stats.newline = toggled)
 	newline_shake_checkbox.toggled.connect(func(toggled:bool) -> void: stats.newline_shake = toggled)
 	newline_shake_slider.drag_ended.connect(func(_bool:bool) -> void:
@@ -135,7 +129,7 @@ func _connect_settings() -> void:
 		stats.newline_shake_scalar = newline_shake_slider.value
 	)
 
-	# Boom connections
+	# Boom connections //////////////////////////////////////////////////////////////////////////////////////
 	boom_checkbox.toggled.connect(func(toggled:bool) -> void: stats.boom = toggled)
 	boom_key_checkbox.toggled.connect(func(toggled:bool) -> void: stats.boom_key = toggled)
 	boom_shake_checkbox.toggled.connect(func(toggled:bool) -> void: stats.boom_shake = toggled)
@@ -149,7 +143,7 @@ func _connect_settings() -> void:
 		stats.boom_sound_addend = boom_sound_slider.value
 	)
 
-	# Blip connections
+	# Blip connections //////////////////////////////////////////////////////////////////////////////////////
 	blip_checkbox.toggled.connect(func(toggled:bool) -> void: stats.blip = toggled)
 	blip_key_checkbox.toggled.connect(func(toggled:bool) -> void: stats.blip_key = toggled)
 	blip_shake_checkbox.toggled.connect(func(toggled:bool) -> void: stats.blip_shake = toggled)
@@ -164,10 +158,8 @@ func _connect_settings() -> void:
 	)
 	blip_sound_selected.item_selected.connect(func(index:int) -> void: stats.blip_sound_selected = index)
 
-	# Blip Pitch connections
-	blip_sound_pitch_checkbox.toggled.connect(func(toggled:bool) -> void:
-		stats.blip_sound_pitch = toggled
-	)
+	# Blip Pitch connections ////////////////////////////////////////////////////////////////////////////////
+	blip_sound_pitch_checkbox.toggled.connect(func(toggled:bool) -> void: stats.blip_sound_pitch = toggled)
 	pitch_clamp_slider.drag_ended.connect(func(_bool:bool) -> void:
 		stats.pitch_clamp = pitch_clamp_slider.value
 		print_debug(MSG04 % ["clamp"]+str(pitch_clamp_slider.value))
@@ -182,7 +174,7 @@ func _connect_settings() -> void:
 	)
 	pitch_debug_button.pressed.connect(func() -> void: emit_signal("rc_window_debug_pitch"))
 
-	# Firework connections
+	# Firework connections //////////////////////////////////////////////////////////////////////////////////
 	firework_checkbox.toggled.connect(func(toggled:bool) -> void: stats.firework = toggled)
 	firework_sound_checkbox.toggled.connect(func(toggled:bool) -> void: stats.firework_sound = toggled)
 	firework_sound_slider.drag_ended.connect(func(_bool:bool) -> void:
@@ -190,14 +182,14 @@ func _connect_settings() -> void:
 		stats.firework_sound_addend = firework_sound_slider.value
 	)
 
+
 func _reset_settings() -> void:
-	var backup_xp:int = stats.xp
-	var backup_level:int = stats.level
+	var backup_exp:int = stats.xp
+	var backup_lvl:int = stats.level
 	var backup_rank:String = stats.rank
 
 	stats = StatsDataRC.new()
 	_load_settings_state()
-	stats.xp = backup_xp
-	stats.level = backup_level
-	stats.rank = backup_rank
-
+	stats.xp    = backup_exp
+	stats.level = backup_lvl
+	stats.rank  = backup_rank

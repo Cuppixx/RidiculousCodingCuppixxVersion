@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dsf3eh0vsnt1o"
-path="res://.godot/imported/readme-enable.png-86bd87b56cede29f6cfbdb3368d4bc9a.ctex"
+uid="uid://byrik8o2aqyc7"
+path="res://.godot/imported/levelUp.png-328826867b4c44e7fcadc1c772d60a79.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://readme-enable.png"
-dest_files=["res://.godot/imported/readme-enable.png-86bd87b56cede29f6cfbdb3368d4bc9a.ctex"]
+source_file="res://addons/ridiculous_coding/images/levelUp.png"
+dest_files=["res://.godot/imported/levelUp.png-328826867b4c44e7fcadc1c772d60a79.ctex"]
 
 [params]
 

@@ -95,8 +95,3 @@ frame_progress = 1.0
 libraries = {
 "": SubResource("AnimationLibrary_ocb2c")
 }
-
-[node name="Timer" type="Timer" parent="."]
-one_shot = true
-
-[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

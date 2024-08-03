@@ -1,16 +1,6 @@
 @tool
-class_name RcBlip extends Node2D
-
-var destroy:bool = false
-
-@onready var animation_player:AnimationPlayer = $AnimationPlayer
-@onready var blip_sprite:AnimatedSprite2D = $BlipSprite
-@onready var timer:Timer = $Timer
+class_name RcBlip extends RcBaseEffect
 
 func _ready() -> void:
-	animation_player.play("default")
-	blip_sprite.frame = 0
-	blip_sprite.play("default")
-	timer.start()
-
-func _on_timer_timeout() -> void: if destroy == true: queue_free()
+	super.do_animation($AnimationPlayer); super.do_sprite($BlipSprite)
+	super.start_effect_timer()

@@ -1,7 +1,7 @@
 @tool
 extends EditorPlugin
 
-signal typing
+signal typing(last_key:String)
 
 #region Preloaded Resources
 const NEWLINE:Resource = preload("res://addons/ridiculous_coding/resources/effects/newline.tscn")
@@ -40,11 +40,13 @@ func _enter_tree() -> void:
 	typing.connect(Callable(dock,"_on_typing"))
 	add_control_to_dock(DOCK_SLOT_RIGHT_BL, dock)
 
+
 func _exit_tree() -> void:
 	if dock:
 		dock.write_savefile()
 		remove_control_from_docks(dock)
 		dock.queue_free()
+
 
 func _get_all_text_editors(parent:Node) -> void:
 	for child in parent.get_children():
@@ -59,20 +61,24 @@ func _get_all_text_editors(parent:Node) -> void:
 			_reconnect_signal(child.text_changed,_text_changed,_text_changed.bind(child))
 			_reconnect_signal(child.gui_input,_gui_input,_gui_input)
 
+
 func _reconnect_signal(my_signal,connection,connect_to) -> void:
 	if my_signal.is_connected(connection): my_signal.disconnect(connection)
 	my_signal.connect(connect_to)
+
 
 func _gui_input(event) -> void:
 	if event is InputEventKey and event.pressed:
 		event = event as InputEventKey
 		last_key = OS.get_keycode_string(event.get_keycode_with_modifiers())
 
+
 func _editor_script_changed(_script) -> void:
 	var editor := get_editor_interface()
 	var script_editor := editor.get_script_editor()
 	editors.clear()
 	_get_all_text_editors(script_editor)
+
 
 func _process(delta:float) -> void:
 	var editor := get_editor_interface()
@@ -90,12 +96,13 @@ func _process(delta:float) -> void:
 			if (pitch > dock.stats.pitch_clamp): pitch = dock.stats.pitch_clamp - 0.1
 			pitch -= delta * dock.stats.pitch_decrement
 
+
 func _shake_screen(duration:float,intensity:float,unqiue_scalar:float) -> void:
 	if shake_duration > 0: return
-	else: pass
 	shake_duration = duration
 	var final_scalar:float = dock.stats.shake_scalar * unqiue_scalar
 	shake_intensity = intensity * final_scalar
+
 
 func _caret_changed(textedit) -> void:
 	var editor := get_editor_interface()
@@ -104,86 +111,92 @@ func _caret_changed(textedit) -> void:
 		_get_all_text_editors(editor.get_script_editor())
 	editors[textedit]["line"] = textedit.get_caret_line()
 
+
 # Instanciate and add the defined scenes
 func _text_changed(textedit : TextEdit) -> void:
 	var line_height:int = textedit.get_line_height()
 	var pos:Vector2 = textedit.get_caret_draw_pos() + Vector2(0,(line_height*-1)/2.0)
-	emit_signal("typing")
+	emit_signal("typing",last_key)
 	if editors.has(textedit):
-		# Deleting
-		if timer > 0.1 and len(textedit.text) < len(editors[textedit]["text"]):
-			timer = 0.0
-			# Draw the boom
-			if dock.stats.boom == true:
-				var boom:RcBoom = BOOM.instantiate()
-				boom.position = pos
-				boom.destroy = true
-				textedit.add_child(boom)
-			# Draw the key
-			if dock.stats.key == true and dock.stats.boom_key == true:
-				var key:RcKey = KEY.instantiate()
-				key.position = pos
-				key.destroy = true
-				key.last_key = last_key
-				key.animation_name = "boom"
-				textedit.add_child(key)
-				key.set_key_color(1.0,2.0,0.0,1.5,0.0,0.4,0.85,1.0)
-			# Add the sound
-			if dock.stats.sound == true and dock.stats.boom_sound == true:
-				var sound:RcSound = SOUND.instantiate()
-				sound.destroy = true
-				sound.sound_selected = SOUND_BOOM
-				sound.base_db = -30.0
-				sound.sound_addend = dock.stats.sound_addend + dock.stats.boom_sound_addend
-				textedit.add_child(sound)
-			# Apply the shake
-			if dock.stats.shake == true and dock.stats.boom_shake == true:
-				_shake_screen(0.2,10,dock.stats.boom_shake_scalar)
-		# Typing
-		if timer > 0.02 and len(textedit.text) >= len(editors[textedit]["text"]):
-			timer = 0.0
-			# Draw the blip
-			if dock.stats.blip == true:
-				var blip:RcBlip = BLIP.instantiate()
-				blip.position = pos
-				blip.destroy = true
-				textedit.add_child(blip)
-			# Draw the key
-			if dock.stats.key == true and dock.stats.blip_key == true:
-				var key:RcKey = KEY.instantiate()
-				key.position = pos
-				key.destroy = true
-				key.last_key = last_key
-				key.animation_name = "blip"
-				textedit.add_child(key)
-				key.set_key_color(0.0,2.0,0.0,2.0,0.0,2.0,1.0,1.0)
-			# Add the sound
-			if dock.stats.sound == true and dock.stats.blip_sound == true:
-				var sound:RcSound = SOUND.instantiate()
-				sound.destroy = true
-				match dock.stats.blip_sound_selected:
-					0: sound.sound_selected = SOUND_BLIP_01
-					1: sound.sound_selected = SOUND_BLIP_02
-				sound.base_db = -5.0
-				sound.sound_addend = dock.stats.sound_addend + dock.stats.blip_sound_addend
-				if dock.stats.blip_sound_pitch == true:
-					sound.pitch_increment = pitch
-					pitch += dock.stats.pitch_increment
-				textedit.add_child(sound)
-			# Apply the shake
-			if dock.stats.shake == true and dock.stats.blip_shake == true:
-				_shake_screen(0.05,5,dock.stats.blip_shake_scalar)
-		# Newline
-		if textedit.get_caret_line() != editors[textedit]["line"]:
-			# Draw the newline
-			if dock.stats.newline == true:
-				var newline:RcNewline = NEWLINE.instantiate()
-				newline.position = pos
-				newline.destroy = true
-				textedit.add_child(newline)
-			# Apply the shake
-			if dock.stats.shake == true and dock.stats.newline_shake == true:
-				_shake_screen(0.05,5,dock.stats.newline_shake_scalar)
+		if timer > 0.1  and len(textedit.text) <  len(editors[textedit]["text"]): _deleting(pos,textedit)
+		if timer > 0.02 and len(textedit.text) >= len(editors[textedit]["text"]): _typing(pos,textedit)
+		if textedit.get_caret_line() != editors[textedit]["line"]: _newline(pos,textedit)
 	else: pass
 	editors[textedit]["text"] = textedit.text
 	editors[textedit]["line"] = textedit.get_caret_line()
+
+
+func _deleting(pos:Vector2,textedit) -> void:
+	timer = 0.0
+	if dock.stats.boom == true:
+		var boom:RcBoom = BOOM.instantiate()
+		boom.position = pos
+		boom.destroy = true
+		textedit.add_child(boom)
+
+	if dock.stats.key == true and dock.stats.boom_key == true:
+		var key:RcKey = KEY.instantiate()
+		key.position = pos
+		key.destroy = true
+		key.animation_name = "boom"
+		textedit.add_child(key)
+		key.create_key(Vector2(1.0,2.0),Vector2(0.0,1.5),Vector2(0.0,0.4),Vector2(0.85,1.0),last_key)
+
+	if dock.stats.sound == true and dock.stats.boom_sound == true:
+		var sound:RcSound = SOUND.instantiate()
+		sound.destroy = true
+		var volume:float = -30.0 + dock.stats.sound_addend + dock.stats.boom_sound_addend
+		textedit.add_child(sound)
+		sound.create_sound(SOUND_BOOM,volume)
+		sound.play_sound_effect()
+
+	if dock.stats.shake == true and dock.stats.boom_shake == true:
+		_shake_screen(0.2,10,dock.stats.boom_shake_scalar)
+
+
+func _typing(pos:Vector2,textedit) -> void:
+	timer = 0.0
+	if dock.stats.blip == true:
+		var blip:RcBlip = BLIP.instantiate()
+		blip.position = pos
+		blip.destroy = true
+		textedit.add_child(blip)
+
+	if dock.stats.key == true and dock.stats.blip_key == true:
+		var key:RcKey = KEY.instantiate()
+		key.position = pos
+		key.destroy = true
+		key.animation_name = "blip"
+		textedit.add_child(key)
+		key.create_key(Vector2(0.0,2.0),Vector2(0.0,2.0),Vector2(0.0,2.0),Vector2(1.0,1.0),last_key)
+
+	if dock.stats.sound == true and dock.stats.blip_sound == true:
+		var sound:RcSound = SOUND.instantiate()
+		sound.destroy = true
+		var stream:AudioStreamWAV = SOUND_BLIP_01
+		match dock.stats.blip_sound_selected:
+			0: stream = SOUND_BLIP_01
+			1: stream = SOUND_BLIP_02
+			_: stream = SOUND_BLIP_01
+		var volume:float = -5.0 + dock.stats.sound_addend + dock.stats.blip_sound_addend
+		textedit.add_child(sound)
+		if dock.stats.blip_sound_pitch == true:
+			sound.create_sound(stream,volume,pitch)
+			pitch += dock.stats.pitch_increment
+		else:
+			sound.create_sound(stream,volume)
+		sound.play_sound_effect()
+
+	if dock.stats.shake == true and dock.stats.blip_shake == true:
+		_shake_screen(0.05,5,dock.stats.blip_shake_scalar)
+
+
+func _newline(pos:Vector2,textedit) -> void:
+	if dock.stats.newline == true:
+		var newline:RcNewline = NEWLINE.instantiate()
+		newline.position = pos
+		newline.destroy = true
+		textedit.add_child(newline)
+
+	if dock.stats.shake == true and dock.stats.newline_shake == true:
+		_shake_screen(0.05,5,dock.stats.newline_shake_scalar)
