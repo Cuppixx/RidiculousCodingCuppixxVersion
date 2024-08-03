@@ -10,6 +10,8 @@ another 1000x more productive.
 
 ![Ridiculous](readme-example.gif)
 
+(gif from the original addon!)
+
 The original addon was inspired by "[Textreme](https://ash-k.itch.io/textreme-2)" by Ash K. Consider checking it out!
 
 ## Changelog, Bugfixes and More ...

@@ -47,6 +47,12 @@ var backup_xp:Array[int] = []; var backup_level:Array[int] = []; var backup_rank
 @onready var settings_button:TextureButton = $VBoxContainer/GridContainer/SettingsButton
 #endregion
 
+func _notification(what:int) -> void:
+	match what:
+		NOTIFICATION_PREDELETE:
+			xp_calculator.queue_free()
+		_: pass
+
 func _ready() -> void:
 	if _verify_file() == false:
 		push_warning(WARN)
