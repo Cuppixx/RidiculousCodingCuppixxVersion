@@ -5,7 +5,8 @@ signal rc_window_debug_pitch
 
 const BASE_XP:int = 50
 const ROOT_PATH:String = "user://"
-const FILE_NAME:String = "ridiculous_xp.tres"
+const FILE_NAME_STATS:String = "ridiculous_xp.tres"
+const FILE_NAME_THEME:String = "ridiculous_themes.tres"
 const WARN:String = "RidiculousCoding plugin couldn't load any savedata, proceed to load and save default config!\nShould the addon not work proceed to RELOAD!"
 
 const RANKS := {
@@ -31,6 +32,7 @@ const RANKS := {
 var xp_calculator:RcXpCalculator = RcXpCalculator.new()
 var xp_next:int = 2 * BASE_XP
 var stats:StatsDataRC
+var theme_custom:ThemeDataRc
 var backup_xp:Array[int] = []; var backup_level:Array[int] = []; var backup_rank:Array[String] = []
 
 #regions @onready variables
@@ -53,12 +55,21 @@ func _notification(what:int) -> void:
 			xp_calculator.queue_free()
 		_: pass
 
+
 func _ready() -> void:
-	if _verify_file() == false:
+	if _verify_file(FILE_NAME_STATS) == false:
 		push_warning(WARN)
 		stats = StatsDataRC.new()
-		write_savefile()
-	else: stats = _load_savefile()
+		write_savefile(stats,FILE_NAME_STATS)
+	else:
+		stats = _load_savefile(FILE_NAME_STATS)
+
+	if _verify_file(FILE_NAME_THEME) == false:
+		push_warning(WARN)
+		theme_custom = ThemeDataRc.new()
+		write_savefile(theme_custom,FILE_NAME_THEME)
+	else:
+		theme_custom = _load_savefile(FILE_NAME_THEME)
 
 	firework_timer.timeout.connect(_stop_firework); _stop_firework()
 	_connect_signals()
@@ -127,6 +138,7 @@ func _connect_signals() -> void:
 		var window_instance:RcWindow = window.instantiate()
 
 		window_instance.stats = stats
+		window_instance.theme_custom = theme_custom
 		window_instance.position = DisplayServer.screen_get_size() / 2 - window_instance.size / 2
 		DisplayServer.set_native_icon("res://addons/ridiculous_coding/icon_small.ico")
 		add_child(window_instance,false,Node.INTERNAL_MODE_FRONT)
@@ -134,6 +146,7 @@ func _connect_signals() -> void:
 		window_instance.tree_exiting.connect(func() -> void:
 			var window_instance_old:Window = get_child(0,true)
 			stats = window_instance_old.stats
+			theme_custom = window_instance_old.theme_custom
 			settings_button.disabled = false
 		)
 		window_instance.rc_window_debug_pitch.connect(func() -> void: emit_signal("rc_window_debug_pitch"))
@@ -161,14 +174,14 @@ func _connect_signals() -> void:
 	)
 
 
-func write_savefile() -> void:
-	ResourceSaver.save(stats,ROOT_PATH+FILE_NAME,0)
+func write_savefile(file,file_name:String) -> void:
+	ResourceSaver.save(file,ROOT_PATH+file_name,0)
 
 
-func _load_savefile() -> Resource:
-	return ResourceLoader.load(ROOT_PATH+FILE_NAME,"",0)
+func _load_savefile(file_name:String) -> Resource:
+	return ResourceLoader.load(ROOT_PATH+file_name,"",0)
 
 
-func _verify_file() -> bool:
-	if DirAccess.open(ROOT_PATH).file_exists(FILE_NAME) == true: return true
+func _verify_file(file_name:String) -> bool:
+	if DirAccess.open(ROOT_PATH).file_exists(file_name) == true: return true
 	else: return false

@@ -25,9 +25,9 @@ Should you encounter any problems (I hope you won't) while using my version of t
 - You can choose between the original beeping sound and my typewriter sound
 - Adjusted char / blip / newline effects
 - Adjusted overall visuals
-- Fireworks are now purple-ish instead of rainbow colored
 - Fireworks use a colored xp-image instead of colored pixels
-- Chars emited upon destruction are now red / yellow instead of rainbow colored
+- Chars emited upon destruction are red / yellow instead of rainbow colored by default
+- Added additional color customization with VFX-Color-Themes (Still WIP)
 - Chars when typing get a small randomized rotation
 - Less overhead in code
 - Saving now utilizes godots resources instead of .ini files
@@ -36,9 +36,7 @@ Should you encounter any problems (I hope you won't) while using my version of t
 - Prob some more stuff I don't remember as of writing this LOL
 
 ### TODO / What I want to do
-- Settings to configure VFX color schemes
-- Settings to adjust VFX positions
-- More Setting for even more customisation
+- Settings to adjust VFX positions / size / rotation
 - Implement an optional custom background feature
 - Implement a regex system that awards more xp for best-practice and sticking to godot style conventions
 - Implement a skill tree / reward system that lets you unlock stuff with ever level you climb
