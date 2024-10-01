@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://q72oab0u7so8"]
+
+[ext_resource type="Script" path="res://addons/ridiculous_coding/resources/interfaces/skill_window.gd" id="1_epfhj"]
+
+[node name="RcWindow" type="Window"]
+script = ExtResource("1_epfhj")

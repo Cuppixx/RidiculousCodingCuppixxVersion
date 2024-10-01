@@ -29,7 +29,7 @@ const RANKS := {
 	999: "addicted",
 }
 
-var xp_calculator:RcXpCalculator = RcXpCalculator.new()
+var xp_calculator:RcXpCalculator
 var xp_next:int = 2 * BASE_XP
 var stats:StatsDataRC
 var theme_custom:ThemeDataRc
@@ -63,6 +63,8 @@ func _ready() -> void:
 		write_savefile(stats,FILE_NAME_STATS)
 	else:
 		stats = _load_savefile(FILE_NAME_STATS)
+
+	xp_calculator = RcXpCalculator.new(stats.skill_01_level, stats.skill_02_level, stats.skill_03_level)
 
 	if _verify_file(FILE_NAME_THEME) == false:
 		push_warning(WARN)
@@ -110,11 +112,9 @@ func _stop_firework() -> void:
 
 
 func _on_typing(last_key:String) -> void:
-	# TODO:
-	# Add regex to check for "clean" code and reward best-practice (snakecase for var / uppercase for const).
-	# Reward sticking to godots code conventions.
-	stats.xp += xp_calculator.claculate_xp()
-	progress.value += xp_calculator.claculate_xp()
+	var xp : int = xp_calculator.calculate_xp(last_key)
+	stats.xp += xp
+	progress.value += xp
 	if progress.value >= progress.max_value:
 		stats.level += 1
 		xp_next = stats.xp + round(BASE_XP * stats.level / 10.0) * 10

@@ -22,13 +22,15 @@ Should you encounter any problems (I hope you won't) while using my version of t
 ### What I changed
 - **Added an extensive settings window**
 - The progress bar now includes different "ranks" to climb
+- You can collect additional XP by typing specific keywords (such as: var, func, return, class, ...)
+- With each level, you can spend a skill point to help you advance faster (WIP)
 - You can choose between the original beeping sound and my typewriter sound
 - Adjusted char / blip / newline effects
 - Adjusted overall visuals
 - Fireworks use a colored xp-image instead of colored pixels
 - Chars emited upon destruction are red / yellow instead of rainbow colored by default
-- Added additional color customization with VFX-Color-Themes (Still WIP)
-- Chars when typing get a small randomized rotation
+- Added additional color customization with VFX-Color-Themes (WIP)
+- Chars when typing get a small randomized rotation by default
 - Less overhead in code
 - Saving now utilizes godots resources instead of .ini files
 - Code is more alligned with (godot) writing conventions
@@ -38,8 +40,6 @@ Should you encounter any problems (I hope you won't) while using my version of t
 ### TODO / What I want to do
 - Settings to adjust VFX positions / size / rotation
 - Implement an optional custom background feature
-- Implement a regex system that awards more xp for best-practice and sticking to godot style conventions
-- Implement a skill tree / reward system that lets you unlock stuff with ever level you climb
 
 Besides the obvious change and some new features my version of the addon aims to be less "in your face" type of style,
 with many options to customise your experience. I also want to empathise a more gamified experience.
