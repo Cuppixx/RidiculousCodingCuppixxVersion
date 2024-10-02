@@ -22,7 +22,7 @@ Should you encounter any problems (I hope you won't) while using my version of t
 ### What I changed
 - **Added an extensive settings window**
 - The progress bar now includes different "ranks" to climb
-- You can collect additional XP by typing specific keywords (such as: var, func, return, class, ...)
+- ~~You can collect additional XP by typing specific keywords (such as: var, func, return, class, ...)~~
 - With each level, you can spend a skill point to help you advance faster (WIP)
 - You can choose between the original beeping sound and my typewriter sound
 - Adjusted char / blip / newline effects
