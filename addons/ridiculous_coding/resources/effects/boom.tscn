@@ -86,7 +86,7 @@ script = ExtResource("1_125dg")
 
 [node name="BoomSprite" type="AnimatedSprite2D" parent="."]
 texture_filter = 5
-scale = Vector2(0.45, 0.45)
+scale = Vector2(0.55, 0.55)
 sprite_frames = SubResource("SpriteFrames_ld5tu")
 frame = 6
 frame_progress = 1.0

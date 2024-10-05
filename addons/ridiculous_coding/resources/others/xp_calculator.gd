@@ -1,3 +1,4 @@
+@tool
 class_name RcXpCalculator extends Node
 
 #const KEYWORD_STRING_LEN: int = 7
@@ -22,17 +23,17 @@ class_name RcXpCalculator extends Node
 
 var skill_01_level: int
 var skill_02_level: int
-var skill_03_level: int
+#var skill_03_level: int
 
 
-func _init(skill_01_level: int, skill_02_level: int, skill_03_level: int) -> void:
-	self.skill_01_level = skill_01_level
-	self.skill_02_level = skill_02_level
-	self.skill_03_level = skill_03_level
+#func _init(skill_01_level: int, skill_02_level: int, skill_03_level: int) -> void:
+	#self.skill_01_level = skill_01_level
+	#self.skill_02_level = skill_02_level
+	#self.skill_03_level = skill_03_level
 
 
 func calculate_xp(last_key: String) -> int:
-	var xp : int = randi_range(1, 1 + skill_02_level) + skill_01_level
+	var xp : int = randi_range(1, 1 + (skill_02_level * 2)) + skill_01_level
 	#keyword_string += last_key
 
 	#if keyword_string.length() > KEYWORD_STRING_LEN:

@@ -29,7 +29,7 @@ const RANKS := {
 	999: "addicted",
 }
 
-var xp_calculator:RcXpCalculator
+var xp_calculator:RcXpCalculator = RcXpCalculator.new()
 var xp_next:int = 2 * BASE_XP
 var stats:StatsDataRC
 var theme_custom:ThemeDataRc
@@ -47,6 +47,7 @@ var backup_xp:Array[int] = []; var backup_level:Array[int] = []; var backup_rank
 @onready var restore_button:TextureButton = $VBoxContainer/GridContainer/ResetUndoButton
 @onready var reset_button:TextureButton = $VBoxContainer/GridContainer/ResetButton
 @onready var settings_button:TextureButton = $VBoxContainer/GridContainer/SettingsButton
+@onready var level_button:TextureButton = $VBoxContainer/GridContainer/LevelUpButton
 #endregion
 
 func _notification(what:int) -> void:
@@ -63,8 +64,6 @@ func _ready() -> void:
 		write_savefile(stats,FILE_NAME_STATS)
 	else:
 		stats = _load_savefile(FILE_NAME_STATS)
-
-	xp_calculator = RcXpCalculator.new(stats.skill_01_level, stats.skill_02_level, stats.skill_03_level)
 
 	if _verify_file(FILE_NAME_THEME) == false:
 		push_warning(WARN)
@@ -112,6 +111,8 @@ func _stop_firework() -> void:
 
 
 func _on_typing(last_key:String) -> void:
+	xp_calculator.skill_01_level = stats.skill_01_level
+	xp_calculator.skill_02_level = stats.skill_02_level
 	var xp : int = xp_calculator.calculate_xp(last_key)
 	stats.xp += xp
 	progress.value += xp
@@ -133,6 +134,7 @@ func _update_progress() -> void:
 func _connect_signals() -> void:
 	settings_button.pressed.connect(func() -> void:
 		settings_button.disabled = true
+		level_button.disabled = true
 
 		var window:Resource = load("res://addons/ridiculous_coding/resources/interfaces/settings_window.tscn")
 		var window_instance:RcWindow = window.instantiate()
@@ -148,6 +150,7 @@ func _connect_signals() -> void:
 			stats = window_instance_old.stats
 			theme_custom = window_instance_old.theme_custom
 			settings_button.disabled = false
+			level_button.disabled = false
 		)
 		window_instance.rc_window_debug_pitch.connect(func() -> void: emit_signal("rc_window_debug_pitch"))
 	)
@@ -171,6 +174,29 @@ func _connect_signals() -> void:
 		stats.level = default_stats.level
 		stats.rank = default_stats.rank
 		_update_progress()
+	)
+
+	level_button.pressed.connect(func() -> void:
+		settings_button.disabled = true
+		level_button.disabled = true
+
+		var window:Resource = load("res://addons/ridiculous_coding/resources/interfaces/skill_window.tscn")
+		var window_instance:RcSkillWindow = window.instantiate()
+
+		window_instance.skill_01_level = stats.skill_01_level
+		window_instance.skill_02_level = stats.skill_02_level
+		window_instance.level = stats.level
+		window_instance.position = DisplayServer.screen_get_size() / 2 - window_instance.size / 2
+		DisplayServer.set_native_icon("res://addons/ridiculous_coding/icon_small.ico")
+		add_child(window_instance,false,Node.INTERNAL_MODE_FRONT)
+
+		window_instance.tree_exiting.connect(func() -> void:
+			var window_instance_old:Window = get_child(0,true)
+			stats.skill_01_level = window_instance_old.skill_01_level
+			stats.skill_02_level = window_instance_old.skill_02_level
+			settings_button.disabled = false
+			level_button.disabled = false
+		)
 	)
 
 
