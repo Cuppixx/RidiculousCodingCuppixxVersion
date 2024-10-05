@@ -14,10 +14,6 @@ another 1000x more productive.
 
 (^ gif from the original addon!)
 
-![Ridiculous](readme-example-gif.gif)
-
-(^ gif from my version! The quality doesn't exactly match the actual visuals due to my limited knowledge of how to record a high-quality GIF with the software. SADGE)
-
 ![Ridiculous](readme-example.png)
 
 ![Ridiculous](readme-example2.png)
