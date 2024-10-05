@@ -12,7 +12,10 @@ const MSG02:String = "--> RC: %s sound volume addend set: "
 const MSG03:String = "--> RC: Settings Window received close request!"
 const MSG04:String = "--> RC: Pitch %s set: "
 #endregion
+
 var stats:StatsDataRC = StatsDataRC.new()
+var theme_custom:ThemeDataRc = ThemeDataRc.new()
+
 #region Onready Variables
 @onready var reset_settings_button:Button = $ScrollContainer/Control/MarginContainer/VBoxContainer/CenterContainerReset/ResetButton
 
@@ -49,6 +52,12 @@ var stats:StatsDataRC = StatsDataRC.new()
 @onready var firework_checkbox:CheckButton = $ScrollContainer/Control/MarginContainer/VBoxContainer/GridContainerFirework/FireworkCheckbox
 @onready var firework_sound_checkbox:CheckButton = $ScrollContainer/Control/MarginContainer/VBoxContainer/GridContainerFirework/FireworkSoundCheckbox
 @onready var firework_sound_slider:HSlider = $ScrollContainer/Control/MarginContainer/VBoxContainer/GridContainerFirework/FireworkSoundSlider
+
+@onready var theme_selector:OptionButton = $ScrollContainer/Control/MarginContainer/VBoxContainer/GridContainerColorAndPosition/ColorSelectionMenu
+@onready var col_min_type:ColorPickerButton = $ScrollContainer/Control/MarginContainer/VBoxContainer/GridContainerColorAndPosition/ColorPickerButton
+@onready var col_max_type:ColorPickerButton = $ScrollContainer/Control/MarginContainer/VBoxContainer/GridContainerColorAndPosition/ColorPickerButton2
+@onready var col_min_delete:ColorPickerButton = $ScrollContainer/Control/MarginContainer/VBoxContainer/GridContainerColorAndPosition/ColorPickerButton3
+@onready var col_max_delete:ColorPickerButton = $ScrollContainer/Control/MarginContainer/VBoxContainer/GridContainerColorAndPosition/ColorPickerButton4
 #endregion
 
 func _notification(what:int) -> void:
@@ -57,6 +66,7 @@ func _notification(what:int) -> void:
 			print_debug(MSG03)
 			queue_free()
 		_: pass
+
 
 func _ready() -> void:
 	var editor_settings:EditorSettings = EditorInterface.get_editor_settings()
@@ -100,6 +110,21 @@ func _load_settings_state() -> void:
 	firework_checkbox.button_pressed = stats.firework
 	firework_sound_checkbox.button_pressed = stats.firework_sound
 	firework_sound_slider.value = stats.firework_sound_addend
+
+	theme_selector.clear()
+	var dict:Dictionary = theme_custom.saved_themes_dictionary
+	for key in dict.keys():
+		theme_selector.add_item(str(key), key)
+	theme_selector.selected = theme_custom.saved_themes_dictionary_selected
+	_set_colors(col_min_type,col_max_type,0)
+	_set_colors(col_min_delete,col_max_delete,1)
+
+
+func _set_colors(min:ColorPickerButton,max:ColorPickerButton,type:int) -> void:
+	var color1:Vector4 = theme_custom.current_theme[type][0]
+	var color2:Vector4 = theme_custom.current_theme[type][1]
+	min.color = Color(color1.x,color1.y,color1.z,color1.w)
+	max.color = Color(color2.x,color2.y,color2.z,color2.w)
 
 
 func _connect_settings() -> void:
@@ -182,6 +207,42 @@ func _connect_settings() -> void:
 		stats.firework_sound_addend = firework_sound_slider.value
 	)
 
+	# Color connections /////////////////////////////////////////////////////////////////////////////////////
+	theme_selector.item_selected.connect(func(index:int) -> void:
+		theme_custom.current_theme = theme_custom.saved_themes_dictionary[index]
+		theme_custom.saved_themes_dictionary_selected = index
+		_set_colors(col_min_type,col_max_type,0)
+		_set_colors(col_min_delete,col_max_delete,1)
+	)
+	col_min_type.popup_closed.connect(_update_theme)
+	col_max_type.popup_closed.connect(_update_theme)
+	col_min_delete.popup_closed.connect(_update_theme)
+	col_max_delete.popup_closed.connect(_update_theme)
+
+
+func _update_theme() -> void:
+	var new_theme = _build_theme()
+
+	var selected_index := theme_selector.selected
+	#if selected_index in theme_custom.saved_themes_dictionary.keys(): print("TRUE")
+	#print(theme_custom.saved_themes_dictionary.keys())
+	#print(theme_selector.selected)
+	theme_custom.saved_themes_dictionary[theme_selector.selected] = new_theme
+	theme_custom.current_theme = theme_custom.saved_themes_dictionary[theme_selector.selected]
+
+
+func _build_theme():
+	var color_type:Array[Vector4] = [
+		Vector4(col_min_type.color.r,col_min_type.color.g,col_min_type.color.b,col_min_type.color.a),
+		Vector4(col_max_type.color.r,col_max_type.color.g,col_max_type.color.b,col_max_type.color.a),
+	]
+	var color_delete:Array[Vector4] = [
+		Vector4(col_min_delete.color.r,col_min_delete.color.g,col_min_delete.color.b,col_min_delete.color.a),
+		Vector4(col_max_delete.color.r,col_max_delete.color.g,col_max_delete.color.b,col_max_delete.color.a),
+	]
+	var new_theme = [color_type,color_delete]
+	return new_theme
+
 
 func _reset_settings() -> void:
 	var backup_exp:int = stats.xp
@@ -189,6 +250,7 @@ func _reset_settings() -> void:
 	var backup_rank:String = stats.rank
 
 	stats = StatsDataRC.new()
+	theme_custom = ThemeDataRc.new()
 	_load_settings_state()
 	stats.xp    = backup_exp
 	stats.level = backup_lvl

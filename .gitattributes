@@ -2,15 +2,18 @@
 * text=auto eol=lf
 
 # Ignore some files when exporting to a ZIP.
-/.gitattributes           export-ignore
-/.gitignore               export-ignore
-/icon.png                 export-ignore
-/icon.png.import          export-ignore
-/ridiculous.png           export-ignore
-/ridiculous.png.import    export-ignore
-/readme-enable.png        export-ignore
-/readme-enable.png.import export-ignore
-/readme-example.gif       export-ignore
-/README.md                export-ignore
-/project.godot            export-ignore
-/test_script.gd           export-ignore
+/.gitattributes            export-ignore
+/.gitignore                export-ignore
+/icon.png                  export-ignore
+/icon.png.import           export-ignore
+/ridiculous.png            export-ignore
+/ridiculous.png.import     export-ignore
+/readme-enable.png         export-ignore
+/readme-enable.png.import  export-ignore
+/readme-enable2.png        export-ignore
+/readme-enable2.png.import export-ignore
+/readme-example.gif        export-ignore
+/readme-example-gif.gif    export-ignore
+/README.md                 export-ignore
+/project.godot             export-ignore
+/test_script.gd            export-ignore

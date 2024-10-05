@@ -37,3 +37,7 @@ class_name StatsDataRC extends Resource
 @export var firework:bool = true
 @export var firework_sound:bool = true
 @export var firework_sound_addend:float = 0.0
+
+@export var skill_01_level:int = 0
+@export var skill_02_level:int = 0
+@export var skill_03_level:int = 0

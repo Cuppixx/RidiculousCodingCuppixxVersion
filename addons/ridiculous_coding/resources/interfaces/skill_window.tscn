@@ -1,0 +1,176 @@
+[gd_scene load_steps=6 format=3 uid="uid://q72oab0u7so8"]
+
+[ext_resource type="Script" path="res://addons/ridiculous_coding/resources/interfaces/skill_window.gd" id="1_epfhj"]
+[ext_resource type="Texture2D" uid="uid://byrik8o2aqyc7" path="res://addons/ridiculous_coding/images/levelUp.png" id="2_55so8"]
+[ext_resource type="Texture2D" uid="uid://cbwjn2pj8aimr" path="res://addons/ridiculous_coding/images/information-sign.png" id="2_xi77u"]
+[ext_resource type="FontFile" uid="uid://bvwnnnja1ur2i" path="res://addons/ridiculous_coding/font.tres" id="3_hrekt"]
+[ext_resource type="Texture2D" uid="uid://bh1a4uodo8icx" path="res://addons/ridiculous_coding/images/reset.png" id="4_1jokn"]
+
+[node name="RcWindow" type="Window"]
+disable_3d = true
+canvas_item_default_texture_filter = 3
+title = "RcSkillMenu"
+size = Vector2i(300, 175)
+transient = true
+exclusive = true
+unresizable = true
+min_size = Vector2i(300, 175)
+max_size = Vector2i(300, 175)
+script = ExtResource("1_epfhj")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.2, 0.2, 0.2, 1)
+
+[node name="MarginContainerTooltip" type="MarginContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 40.0
+grow_horizontal = 0
+theme_override_constants/margin_left = 7
+theme_override_constants/margin_top = 7
+theme_override_constants/margin_right = 7
+theme_override_constants/margin_bottom = 7
+
+[node name="TooltipTextureButton" type="TextureButton" parent="Control/MarginContainerTooltip"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "The bottom right displays your available skill points. You earn one point per level. You can spend points on skills by clicking on the XP images. The bottom left allows you to recover / free your spent points. Have fun!"
+disabled = true
+texture_normal = ExtResource("2_xi77u")
+texture_pressed = ExtResource("2_xi77u")
+texture_hover = ExtResource("2_xi77u")
+texture_disabled = ExtResource("2_xi77u")
+texture_focused = ExtResource("2_xi77u")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="MarginContainerSkillPoints" type="MarginContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -40.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 10
+
+[node name="SkillPointsLabel" type="Label" parent="Control/MarginContainerSkillPoints"]
+self_modulate = Color(0.0156863, 0.537255, 0.741176, 1)
+layout_mode = 2
+tooltip_text = "Available Skillpoints"
+mouse_filter = 1
+theme_override_fonts/font = ExtResource("3_hrekt")
+theme_override_font_sizes/font_size = 30
+text = "0"
+
+[node name="MarginContainerReset" type="MarginContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -50.0
+offset_right = 50.0
+grow_vertical = 0
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="ResetTextureButton" type="TextureButton" parent="Control/MarginContainerReset"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+tooltip_text = "Free Points!"
+texture_normal = ExtResource("4_1jokn")
+texture_pressed = ExtResource("4_1jokn")
+texture_hover = ExtResource("4_1jokn")
+texture_disabled = ExtResource("4_1jokn")
+texture_focused = ExtResource("4_1jokn")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="GridContainer" type="GridContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -82.0
+offset_top = -40.0
+offset_right = 82.0
+offset_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/h_separation = 25
+columns = 2
+
+[node name="Skill01TextureButton" type="TextureButton" parent="Control/GridContainer"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+tooltip_text = "Each skill point invested grants an additional 1 flat XP when typing."
+texture_normal = ExtResource("2_55so8")
+texture_pressed = ExtResource("2_55so8")
+texture_hover = ExtResource("2_55so8")
+texture_disabled = ExtResource("2_55so8")
+texture_focused = ExtResource("2_55so8")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="SkillPointsLabel" type="Label" parent="Control/GridContainer/Skill01TextureButton"]
+self_modulate = Color(0.0156863, 0.537255, 0.741176, 1)
+layout_mode = 1
+offset_right = 27.0
+offset_bottom = 10.0
+theme_override_fonts/font = ExtResource("3_hrekt")
+theme_override_font_sizes/font_size = 18
+text = "0"
+
+[node name="Skill02TextureButton" type="TextureButton" parent="Control/GridContainer"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+tooltip_text = "Each skill point invested grants an additional 2 potential max XP while typing. For example, investing 15 points can grant between 1 and 30 bonus XP while typing."
+texture_normal = ExtResource("2_55so8")
+texture_pressed = ExtResource("2_55so8")
+texture_hover = ExtResource("2_55so8")
+texture_disabled = ExtResource("2_55so8")
+texture_focused = ExtResource("2_55so8")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="SkillPointsLabel" type="Label" parent="Control/GridContainer/Skill02TextureButton"]
+self_modulate = Color(0.0156863, 0.537255, 0.741176, 1)
+layout_mode = 1
+offset_right = 27.0
+offset_bottom = 10.0
+theme_override_fonts/font = ExtResource("3_hrekt")
+theme_override_font_sizes/font_size = 18
+text = "0"

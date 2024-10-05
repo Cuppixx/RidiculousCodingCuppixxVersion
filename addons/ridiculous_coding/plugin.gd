@@ -43,7 +43,8 @@ func _enter_tree() -> void:
 
 func _exit_tree() -> void:
 	if dock:
-		dock.write_savefile()
+		dock.write_savefile(dock.stats,dock.FILE_NAME_STATS)
+		dock.write_savefile(dock.theme_custom,dock.FILE_NAME_THEME)
 		remove_control_from_docks(dock)
 		dock.queue_free()
 
@@ -140,7 +141,15 @@ func _deleting(pos:Vector2,textedit) -> void:
 		key.destroy = true
 		key.animation_name = "boom"
 		textedit.add_child(key)
-		key.create_key(Vector2(1.0,2.0),Vector2(0.0,1.5),Vector2(0.0,0.4),Vector2(0.85,1.0),last_key)
+		var cmin:Vector4 = dock.theme_custom.current_theme[1][0]
+		var cmax:Vector4 = dock.theme_custom.current_theme[1][1]
+		key.create_key(
+			Vector2(cmin.x,cmax.x),
+			Vector2(cmin.y,cmax.y),
+			Vector2(cmin.z,cmax.z),
+			Vector2(cmin.w,cmax.w),
+			last_key
+		)
 
 	if dock.stats.sound == true and dock.stats.boom_sound == true:
 		var sound:RcSound = SOUND.instantiate()
@@ -168,7 +177,15 @@ func _typing(pos:Vector2,textedit) -> void:
 		key.destroy = true
 		key.animation_name = "blip"
 		textedit.add_child(key)
-		key.create_key(Vector2(0.0,2.0),Vector2(0.0,2.0),Vector2(0.0,2.0),Vector2(1.0,1.0),last_key)
+		var cmin:Vector4 = dock.theme_custom.current_theme[0][0]
+		var cmax:Vector4 = dock.theme_custom.current_theme[0][1]
+		key.create_key(
+			Vector2(cmin.x,cmax.x),
+			Vector2(cmin.y,cmax.y),
+			Vector2(cmin.z,cmax.z),
+			Vector2(cmin.w,cmax.w),
+			last_key
+		)
 
 	if dock.stats.sound == true and dock.stats.blip_sound == true:
 		var sound:RcSound = SOUND.instantiate()

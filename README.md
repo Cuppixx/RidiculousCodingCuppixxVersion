@@ -2,6 +2,8 @@
 
 - Original version written by John Watson --> New, improved and **extended** version by Cuppixx.
 
+**Disclaimer:** This project is pretty much feature complete. Some features were cut out due to my own coding limitations or a general disinterest to continue working on this project. As of now, I can't say whether I will return to this project to implement the remaining features. However, feel free to add more or missing features yourself!
+
 ## Overview
 
 It makes your coding experience in Godot 1000x more ridiculous and
@@ -10,7 +12,15 @@ another 1000x more productive.
 
 ![Ridiculous](readme-example.gif)
 
-(gif from the original addon!)
+(^ gif from the original addon!)
+
+![Ridiculous](readme-example-gif.gif)
+
+(^ gif from my version! The quality doesn't exactly match the actual visuals due to my limited knowledge of how to record a high-quality GIF with the software. SADGE)
+
+![Ridiculous](readme-example.png)
+
+![Ridiculous](readme-example2.png)
 
 The original addon was inspired by "[Textreme](https://ash-k.itch.io/textreme-2)" by Ash K. Consider checking it out!
 
@@ -22,13 +32,15 @@ Should you encounter any problems (I hope you won't) while using my version of t
 ### What I changed
 - **Added an extensive settings window**
 - The progress bar now includes different "ranks" to climb
+- ~~You can collect additional XP by typing specific keywords (such as: var, func, return, class, ...)~~
+- With each level, you can spend a skill point to help you advance faster (WIP)
 - You can choose between the original beeping sound and my typewriter sound
 - Adjusted char / blip / newline effects
 - Adjusted overall visuals
-- Fireworks are now purple-ish instead of rainbow colored
 - Fireworks use a colored xp-image instead of colored pixels
-- Chars emited upon destruction are now red / yellow instead of rainbow colored
-- Chars when typing get a small randomized rotation
+- Chars emited upon destruction are red / yellow instead of rainbow colored by default
+- Added additional color customization with VFX-Color-Themes (WIP)
+- Chars when typing get a small randomized rotation by default
 - Less overhead in code
 - Saving now utilizes godots resources instead of .ini files
 - Code is more alligned with (godot) writing conventions
@@ -36,12 +48,8 @@ Should you encounter any problems (I hope you won't) while using my version of t
 - Prob some more stuff I don't remember as of writing this LOL
 
 ### TODO / What I want to do
-- Settings to configure VFX color schemes
-- Settings to adjust VFX positions
-- More Setting for even more customisation
-- Implement an optional custom background feature
-- Implement a regex system that awards more xp for best-practice and sticking to godot style conventions
-- Implement a skill tree / reward system that lets you unlock stuff with ever level you climb
+- Settings to adjust VFX / Chars position offset, size, and rotation
+- ~~Implement an optional custom background feature~~
 
 Besides the obvious change and some new features my version of the addon aims to be less "in your face" type of style,
 with many options to customise your experience. I also want to empathise a more gamified experience.
@@ -99,6 +107,8 @@ Currently I have no (active) social media! Still want to follow me? --> Check ou
 Check out and download the amazing [Godot Engine](https://godotengine.org/download)!
 
 ### Cuppixx
+
+[My Portfolio](https://cuppixx.github.io)
 
 [Twitch](https://www.twitch.tv/cuppixd)
 

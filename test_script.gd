@@ -9,9 +9,8 @@ This is a test on  line without the tabulator
 	Your test could go below......
 
 	This is my test!
-	tttttttttttttttttttttttttttt
-	tttttttttttttttttttttttt
-	tttttttttttttttttttt
-	ttttttttttttttt
-	ttttttttt
+	ttttttttttttttttttttttttt
+	ttttttttttttttttttttt
+	tttttttttttttttt
+	tttttttttt
 """
