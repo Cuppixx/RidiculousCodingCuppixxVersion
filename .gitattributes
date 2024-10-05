@@ -8,12 +8,11 @@
 /icon.png.import           export-ignore
 /ridiculous.png            export-ignore
 /ridiculous.png.import     export-ignore
-/readme-enable.png         export-ignore
-/readme-enable.png.import  export-ignore
-/readme-enable2.png        export-ignore
-/readme-enable2.png.import export-ignore
+/readme-example.png         export-ignore
+/readme-example.png.import  export-ignore
+/readme-example2.png        export-ignore
+/readme-example2.png.import export-ignore
 /readme-example.gif        export-ignore
-/readme-example-gif.gif    export-ignore
 /README.md                 export-ignore
 /project.godot             export-ignore
 /test_script.gd            export-ignore
